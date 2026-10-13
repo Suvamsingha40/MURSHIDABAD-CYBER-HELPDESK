@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murshidabad Cyber Helpdesk</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f1f5f9;color:#172554}
+header{background:#102d50;color:white;text-align:center;padding:25px 12px}
+main{max-width:650px;margin:20px auto;padding:16px}
+.card{background:white;padding:20px;border-radius:12px;margin-bottom:18px;box-shadow:0 2px 8px #ccd3dd}
+input,textarea{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #bbb;border-radius:6px}
+button,.btn{display:block;width:100%;box-sizing:border-box;background:#1359a5;color:white;padding:13px;border:0;border-radius:7px;text-align:center;text-decoration:none;font-size:16px;margin-top:10px}
+.notice{font-size:14px;color:#555}
+</style>
+</head>
+<body>
+<header>
+<h1>Murshidabad Cyber Helpdesk</h1>
+<p>সাইবার অপরাধ সংক্রান্ত তথ্য ও অভিযোগের সহায়তা</p>
+</header>
+<main>
+<div class="card">
+<h2>জরুরি সাইবার সাহায্য</h2>
+<p>আর্থিক সাইবার প্রতারণা হলে দ্রুত 1930 নম্বরে যোগাযোগ করুন।</p>
+<a class="btn" href="tel:1930">কল করুন: 1930</a>
+<a class="btn" href="https://cybercrime.gov.in/" target="_blank" rel="noopener">Official NCRP Portal</a>
+</div>
+<div class="card">
+<h2>অভিযোগের খসড়া তৈরি করুন</h2>
+<p class="notice">এটি স্বাধীন সহায়তা ও খসড়া তৈরির পেজ; সরকারি পুলিশ ওয়েবসাইট নয়। এখানে সংবেদনশীল তথ্য লিখবেন না।</p>
+<form id="complaint">
+<label>আপনার নাম</label>
+<input id="name" required>
+<label>যোগাযোগের মোবাইল নম্বর</label>
+<input id="phone" type="tel" required>
+<label>ঘটনার তারিখ</label>
+<input id="date" type="date" required>
+<label>সাইবার অপরাধের ধরন</label>
+<input id="type" placeholder="যেমন: অনলাইন আর্থিক প্রতারণা" required>
+<label>ঘটনার বিবরণ</label>
+<textarea id="details" rows="5" required></textarea>
+<button type="submit">অভিযোগের খসড়া দেখুন</button>
+</form>
+<div id="result" hidden>
+<h3>অভিযোগের খসড়া</h3>
+<pre id="draft" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+<button id="download" type="button">TXT ফাইল ডাউনলোড</button>
+<a class="btn" href="https://cybercrime.gov.in/" target="_blank" rel="noopener">NCRP-তে অভিযোগ করুন</a>
+</div>
+</div>
+</main>
+<footer style="text-align:center;padding:18px;font-size:13px">স্বাধীন সহায়তা পোর্টাল · সরকারি সংস্থা নয়</footer>
+<script>
+let complaintText = "";
+document.getElementById("complaint").addEventListener("submit",function(e){
+e.preventDefault();
+complaintText = "সাইবার অপরাধের অভিযোগের খসড়া\n\n"+
+"নাম: "+document.getElementById("name").value+"\n"+
+"মোবাইল: "+document.getElementById("phone").value+"\n"+
+"ঘটনার তারিখ: "+document.getElementById("date").value+"\n"+
+"অপরাধের ধরন: "+document.getElementById("type").value+"\n"+
+"ঘটনার বিবরণ: "+document.getElementById("details").value+
+"\n\nএটি খসড়া; সরকারি পোর্টালে আলাদাভাবে অভিযোগ জমা দিতে হবে।";
+document.getElementById("draft").textContent=complaintText;
+document.getElementById("result").hidden=false;
+});
+document.getElementById("download").addEventListener("click",function(){
+let blob = new Blob(["\ufeff"+complaintText],{type:"text/plain;charset=utf-8"});
+let url=URL.createObjectURL(blob);
+let a=document.createElement("a");
+a.href=url;a.download="cyber-complaint-draft.txt";a.click();
+URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
