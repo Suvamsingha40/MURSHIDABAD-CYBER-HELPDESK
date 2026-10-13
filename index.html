@@ -13,6 +13,7 @@ input,textarea{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;b
 button,.btn{display:block;width:100%;box-sizing:border-box;background:#1359a5;color:white;padding:13px;border:0;border-radius:7px;text-align:center;text-decoration:none;font-size:16px;margin-top:10px}
 .notice{font-size:14px;color:#555}
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <header>
@@ -66,11 +67,12 @@ document.getElementById("draft").textContent=complaintText;
 document.getElementById("result").hidden=false;
 });
 document.getElementById("download").addEventListener("click",function(){
-let blob = new Blob(["\ufeff"+complaintText],{type:"text/plain;charset=utf-8"});
-let url=URL.createObjectURL(blob);
-let a=document.createElement("a");
-a.href=url;a.download="cyber-complaint-draft.txt";a.click();
-URL.revokeObjectURL(url);
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+  const lines = pdf.splitTextToSize(complaintText, 180);
+  pdf.setFont("helvetica");
+  pdf.text(lines, 15, 20);
+  pdf.save("cyber-complaint-draft.pdf");
 });
 </script>
 </body>
